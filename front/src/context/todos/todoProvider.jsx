@@ -6,8 +6,8 @@ import {
 	DELETE_ITEM,
 	GET_LIST,
 } from '../../types';
-import StoreContext from './storeContext';
-import StoreReducer from './storeReducer';
+import TodoContext from './todoContext';
+import TodoReducer from './todoReducer';
 const HOST_API = 'http://localhost:8080/api';
 
 const StoreProvider = (props) => {
@@ -17,7 +17,7 @@ const StoreProvider = (props) => {
 	};
 	/**TODO: message state for reading request errors*/
 
-	const [state, dispatch] = useReducer(StoreReducer, initialState);
+	const [state, dispatch] = useReducer(TodoReducer, initialState);
 
 	// Get every item on the list
 	const getList = async () => {
@@ -80,7 +80,7 @@ const StoreProvider = (props) => {
 	};
 
 	return (
-		<StoreContext.Provider
+		<TodoContext.Provider
 			value={{
 				list: state.list,
 				item: state.item,
@@ -92,7 +92,7 @@ const StoreProvider = (props) => {
 			}}
 		>
 			{props.children}
-		</StoreContext.Provider>
+		</TodoContext.Provider>
 	);
 };
 

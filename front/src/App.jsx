@@ -1,23 +1,27 @@
-import Form from './components/Form';
-import List from './components/List';
-import StoreProvider from './context/store/storeProvider';
+import ListForm from './components/grouplists/ListForm';
+import ViewLists from './components/grouplists/ViewLists';
+import TodoProvider from './context/todos/todoProvider';
 
 function App() {
 	return (
-		<StoreProvider>
-			<div className=''>
-				<h1 className=''>To-Do List</h1>
+		<TodoProvider>
+			<div className='container px-3 md:px-7 m-auto md:w-3/4'>
+				<div className='min-h-full'>
+					<header className='bg-white shadow'>
+						<div className='max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8'>
+							<h1 className='text-3xl font-bold md:text-center text-gray-900'>
+								To-Do List Dashboard
+							</h1>
+						</div>
+					</header>
 
-				<div className=''>
-					<div className=''>
-						<Form />
-					</div>
-					<div className=''>
-						<List />
-					</div>
+					<main>
+						<ListForm />
+						<ViewLists />
+					</main>
 				</div>
 			</div>
-		</StoreProvider>
+		</TodoProvider>
 	);
 }
 

@@ -14,7 +14,7 @@ public class TodoModel {
   @GeneratedValue()
   private Long id;
 
-  @Column(name = "name", length = 40, nullable = false)
+  @Column(name = "name", length = 50, nullable = false)
   private String name;
   
   @Column(name = "completed", nullable = false)
