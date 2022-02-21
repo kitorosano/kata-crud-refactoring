@@ -13,7 +13,7 @@ import co.com.sofka.crud.services.TodoService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/todos")
 public class TodoController {
   
   @Autowired
@@ -25,7 +25,7 @@ public class TodoController {
   * @param todo
   * @return Un response exitoroso con el nuevo objeto creado, o un response fallido.
   */
-  @PostMapping(value = "/todos")
+  @PostMapping()
   public ResponseEntity<TodoModel> createTodo(@RequestBody TodoModel todo){
     try {
       return new ResponseEntity<>(todoService.saveTodo(todo), HttpStatus.CREATED);
@@ -36,15 +36,14 @@ public class TodoController {
   
   /*=========== READ ===========*/
   /**
-  * Metodo para obtener todos los objetos TODO. Se puede utilizar el parametro name o completed opcionalmente para filtrar por nombre o estado
-  * @param name
-  * @param completed
+  * Metodo para obtener todos los objetos TODO de una Lista utilizando el parametro groupList
+  * @param groupList
   * @return Un response exitoroso con la lista de los TODOs o aquellos filtrados por nombre o estado, o un response vacio. 
   */
-  @GetMapping(value = "/todos")
-  public ResponseEntity<List<TodoModel>> readTodos(@RequestParam(value = "name", required = false) String name, @RequestParam(value = "completed", required = false) Boolean completed){
+  @GetMapping(params = "groupList")
+  public ResponseEntity<List<TodoModel>> readTodos(@RequestParam(value = "groupList") String groupList){
     try {
-      List<TodoModel> todos = todoService.findTodos(name, completed);
+      List<TodoModel> todos = todoService.findTodos(groupList);
       
       if(todos.isEmpty())
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -60,17 +59,18 @@ public class TodoController {
   * Metodo para obtener un objeto TODO mediante su id
   * @param id
   * @return Un response exitoroso con el TODO, o un response vacio.
-  */
-  @GetMapping("/todos/{id}")
-  public ResponseEntity<TodoModel> readTodo(@PathVariable(value = "id") Long id) {
-    Optional<TodoModel> todo = todoService.getTodo(id);
+  *
+  * @GetMapping("{id}")
+  * public ResponseEntity<TodoModel> readTodo(@PathVariable(value = "id") Long id) {
+  *   Optional<TodoModel> todo = todoService.getTodo(id);
     
-    if (todo.isPresent()) {
-      return new ResponseEntity<>(todo.get(), HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-  }
+  *   if (todo.isPresent()) {
+  *     return new ResponseEntity<>(todo.get(), HttpStatus.OK);
+  *   } else {
+  *     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  *   }
+  * }
+  */
   
   /*=========== UPDATE ===========*/
   
@@ -80,7 +80,7 @@ public class TodoController {
   * @param todo
   * @return Un response exitoso con el TODO modificado, o un response vacio
   */
-  @PutMapping("/todos/{id}")
+  @PutMapping("/{id}")
   public ResponseEntity<?> updateTodo(@PathVariable(value = "id") Long id, @RequestBody TodoModel todo){
     try {
       TodoModel todoData = todoService.editTodo(id, todo);
@@ -98,7 +98,7 @@ public class TodoController {
   * @param id
   * @return Un response exitoso con un mensaje si se ha eliminado correctamente, o un response fallido.
   */
-  @DeleteMapping("/todos/{id}")
+  @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteTodo(@PathVariable(value = "id") long id) {
     try {
       todoService.deleteTodo(id);
@@ -109,17 +109,18 @@ public class TodoController {
   }
   
   /**
-  * Metodo para eliminar TODOs mediante su titulo
+  * Metodo para eliminar todos los TODOs o filtrar por el parametro completed
   * @param completed
   * @return Un response exitoso con un mensaje si se han eliminado correctamente, o un response fallido.
+  *
+  * @DeleteMapping()
+  * public ResponseEntity<String> deleteTodos(@RequestParam(value = "completed", required = false) Boolean completed) {
+  *   try {
+  *     todoService.deleteTodos(completed);
+  *     return new ResponseEntity<>("TODOs deleted sucessfully",HttpStatus.NO_CONTENT);
+  *   } catch (Exception e) {
+  *     return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+  *   }
+  * }
   */
-  @DeleteMapping(value = "/todos")
-  public ResponseEntity<String> deleteTodos(@RequestParam(value = "completed", required = false) Boolean completed) {
-    try {
-      todoService.deleteTodos(completed);
-      return new ResponseEntity<>("TODOs deleted sucessfully",HttpStatus.NO_CONTENT);
-    } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-    }
-  }
 }

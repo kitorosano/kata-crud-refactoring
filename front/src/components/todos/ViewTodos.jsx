@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import TodoContext from '../../context/todos/todoContext';
 
-function List() {
+function ViewTodos() {
 	// Store Context methods
 	const { list, getList, selectItem, updateItem, deleteItem } =
 		useContext(TodoContext);
@@ -122,4 +122,4 @@ function List() {
 	);
 }
 
-export default List;
+export default ViewTodos;

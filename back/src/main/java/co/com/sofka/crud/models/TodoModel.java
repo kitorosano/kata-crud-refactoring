@@ -20,18 +20,17 @@ public class TodoModel {
   @Column(name = "completed", nullable = false)
   private Boolean completed;
   
-  // @Column(name = "groupListId", nullable = false)
+  @Column(name = "groupListId", nullable = false)
   private String groupListId;
 
 
   public TodoModel() {
   }
 
-  // public TodoModel(String name, Boolean completed, String groupListId) {
-  public TodoModel(String name, Boolean completed) {
+  public TodoModel(String name, Boolean completed, String groupListId) {
     this.name = name;
     this.completed = completed;
-    // this.groupListId = groupListId;
+    this.groupListId = groupListId;
   }
 
   public Long getId() {

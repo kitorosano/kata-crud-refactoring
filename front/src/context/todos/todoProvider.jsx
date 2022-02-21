@@ -20,9 +20,9 @@ const StoreProvider = (props) => {
 	const [state, dispatch] = useReducer(TodoReducer, initialState);
 
 	// Get every item on the list
-	const getList = async () => {
+	const getList = async (groupList) => {
 		try {
-			const response = await fetch(HOST_API + '/todos');
+			const response = await fetch(HOST_API + `/todos?groupList=${groupList}`);
 			const list = await response.json();
 
 			dispatch({ type: GET_LIST, payload: list });

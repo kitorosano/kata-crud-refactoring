@@ -1,7 +1,7 @@
 import React, { useContext, useRef, useState } from 'react';
 import TodoContext from '../../context/todos/todoContext';
 
-function Form() {
+function TodoForm() {
 	// Store Context methods
 	const { item: actualItem, addItem, updateItem } = useContext(TodoContext);
 
@@ -86,4 +86,4 @@ function Form() {
 	);
 }
 
-export default Form;
+export default TodoForm;

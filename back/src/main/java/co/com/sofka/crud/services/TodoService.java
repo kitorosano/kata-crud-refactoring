@@ -18,29 +18,14 @@ public class TodoService {
   /*=========== SAVE ===========*/
   /** Saves a new register of TODO */
   public TodoModel saveTodo(TodoModel todo){
-    // return todoRepository.save(new TodoModel(todo.getName(), false, todo.getGroupListId()));
-    return todoRepository.save(new TodoModel(todo.getName(), false));
+    return todoRepository.save(new TodoModel(todo.getName(), false, todo.getGroupListId()));
   }
 
 
   /*=========== FIND ===========*/
-  /** Finds all TODOs or finds all TODOs by name or completed */
-  public List<TodoModel> findTodos(String name, Boolean completed){
-
-    // Find without filters, both null
-    if(name == null && completed == null)
-      return (List<TodoModel>) todoRepository.findAll();
-    
-    // Find if only name is not null
-    if(name != null && completed == null)
-      return todoRepository.findByNameContaining(name);
-
-    // Find if only completed is not null
-    if(name == null && completed != null)
-      return todoRepository.findByCompleted(completed);
-
-    // Find using both filters
-    return todoRepository.findByNameContainingAndCompleted(name, completed);
+  /** Finds all TODOs or finds all TODOs by groupList */
+  public List<TodoModel> findTodos(String groupList){
+    return (List<TodoModel>) todoRepository.findByGroupListId(groupList);
   }
 
   /** Get TODO by id */
