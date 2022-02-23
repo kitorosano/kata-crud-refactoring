@@ -1,19 +1,19 @@
 import React, { useContext, useEffect } from 'react';
 import TodoContext from '../../context/todos/todoContext';
 
-function ViewTodos() {
+function ViewTodos({todos}) {
 	// Store Context methods
-	const { list, getList, selectItem, updateItem, deleteItem } =
+	const { getTodos, selectTodo, updateTodo, deleteTodo } =
 		useContext(TodoContext);
 
 	useEffect(() => {
-		// Get list at page start
-		getList();
-	}, [list.length]);
+		// Get todos at page start
+		// getTodos();
+	}, []);
 
 	const onChange = (ev, modifiedTodo) => {
 		// Update new item completion state to database
-		updateItem(modifiedTodo.id, {
+		updateTodo(modifiedTodo.id, {
 			name: modifiedTodo.name,
 			completed: ev.target.checked,
 		});
@@ -29,7 +29,7 @@ function ViewTodos() {
 				<div className='py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8'>
 					<div className='shadow overflow-hidden border-b border-gray-200 sm:rounded-lg'>
 						<table className='min-w-full divide-y divide-gray-200'>
-							<thead className='bg-gray-50'>
+							{/* <thead className='bg-gray-50'>
 								<tr>
 									<th
 										scope='col'
@@ -56,9 +56,9 @@ function ViewTodos() {
 										<span className='sr-only'>Acciones</span>
 									</th>
 								</tr>
-							</thead>
+							</thead> */}
 							<tbody className='bg-white divide-y divide-gray-200'>
-								{list.map((todo, i) => (
+								{todos.map((todo, i) => (
 									<tr
 										key={i}
 										className={`${i % 2 == 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-gray-100`}
@@ -100,13 +100,13 @@ function ViewTodos() {
 										<td className='px-3 md:px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2'>
 											<button
 												className='px-4 inline-flex justify-center py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500'
-												onClick={() => selectItem(todo)}
+												onClick={() => selectTodo(todo)}
 											>
 												Editar
 											</button>
 											<button
 												className='px-4 inline-flex justify-center py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500'
-												onClick={() => deleteItem(todo.id)}
+												onClick={() => deleteTodo(todo.id)}
 											>
 												Eliminar
 											</button>

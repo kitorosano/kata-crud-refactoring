@@ -13,18 +13,18 @@ import co.com.sofka.crud.repositories.IListRepository;
 public class ListService {
   
   @Autowired
-  private IListRepository listRepository;
+  private IListRepository listRepository;  
 
   
   /*=========== SAVE ===========*/
   /** Saves a new register of List */
-  public ListModel saveList(ListModel list){
+  public ListModel saveNewList(ListModel list){
     return listRepository.save(new ListModel(list.getName()));
   }
 
 
   /*=========== FIND ===========*/
-  /** Finds all Lists or finds all Lists by name */
+  /** Finds all Lists */
   public List<ListModel> findLists(){
     // Find without filters
     return (List<ListModel>) listRepository.findAll();

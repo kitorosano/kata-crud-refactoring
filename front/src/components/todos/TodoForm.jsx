@@ -1,15 +1,14 @@
 import React, { useContext, useRef, useState } from 'react';
 import TodoContext from '../../context/todos/todoContext';
 
-function TodoForm() {
-	// Store Context methods
-	const { item: actualItem, addItem, updateItem } = useContext(TodoContext);
-
-	// Input name state
-	const [modifiedName, setModifiedName] = useState('');
+function TodoForm({ listId }) {
+	// Todo Context methods
+	const { selectedTodo, addTodo, updateTodo } = useContext(TodoContext);
 
 	// Reference on form element, for reset purpose
 	const formRef = useRef(null);
+	// Input name state
+	const [modifiedName, setModifiedName] = useState('');
 
 	const onAdd = (ev) => {
 		ev.preventDefault();
@@ -18,7 +17,7 @@ function TodoForm() {
 		if (modifiedName === '') return;
 
 		// Add new item to database
-		addItem({
+		addTodo(listId, {
 			name: modifiedName,
 			completed: false,
 		});
@@ -36,9 +35,9 @@ function TodoForm() {
 		if (modifiedName === '') return;
 
 		// Update new item to database using id
-		updateItem(actualItem.id, {
+		updateTodo(selectedTodo.id, {
 			name: modifiedName,
-			completed: actualItem.completed,
+			completed: selectedTodo.completed,
 		});
 
 		// Clear state
@@ -59,12 +58,12 @@ function TodoForm() {
 						type='text'
 						name='name'
 						placeholder='Nombre del nuevo TO-DO...'
-						defaultValue={actualItem.name}
+						defaultValue={selectedTodo.name}
 						onChange={(ev) => setModifiedName(ev.target.value)}
 					/>
 				</div>
 				<div className='col-span-3 md:col-span-2'>
-					{actualItem.id ? (
+					{selectedTodo.id ? (
 						<button
 							className='w-full inline-flex justify-center py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
 							onClick={onEdit}

@@ -2,6 +2,7 @@ package co.com.sofka.crud.controllers;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import co.com.sofka.crud.models.TodoModel;
+import co.com.sofka.crud.models.TodoRequestModel;
 import co.com.sofka.crud.services.TodoService;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -25,35 +27,37 @@ public class TodoController {
   * @param todo
   * @return Un response exitoroso con el nuevo objeto creado, o un response fallido.
   */
-  @PostMapping()
-  public ResponseEntity<TodoModel> createTodo(@RequestBody TodoModel todo){
+  @PostMapping(params = "listId")
+  public ResponseEntity<?> createTodo(@RequestParam(value = "listId") Long listId, @RequestBody TodoRequestModel todo){
     try {
-      return new ResponseEntity<>(todoService.saveTodo(todo), HttpStatus.CREATED);
+      return new ResponseEntity<>(todoService.saveNewTodo(listId, todo), HttpStatus.CREATED);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
     }
   }
   
   /*=========== READ ===========*/
   /**
-  * Metodo para obtener todos los objetos TODO de una Lista utilizando el parametro groupList
-  * @param groupList
+  * Metodo para obtener todos los objetos TODO de una Lista utilizando el parametro listId
+  * @param listId
   * @return Un response exitoroso con la lista de los TODOs o aquellos filtrados por nombre o estado, o un response vacio. 
   */
-  @GetMapping(params = "groupList")
-  public ResponseEntity<List<TodoModel>> readTodos(@RequestParam(value = "groupList") String groupList){
+  @GetMapping(params = "listId")
+  public ResponseEntity<?> readTodos(@RequestParam(value = "listId") Long listId){
     try {
-      List<TodoModel> todos = todoService.findTodos(groupList);
+      Set<TodoRequestModel> todos = todoService.findTodos(listId);
       
-      if(todos.isEmpty())
-      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      // if(todos.isEmpty())
+      // return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       
-      
+      // return new ResponseEntity<>(todos,HttpStatus.OK);
       return new ResponseEntity<>(todos, HttpStatus.OK);
     }catch (Exception e){
-      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  /**TODO: 23/02/2022: getTodosByListIds; params: [IDs]; returns [set<TodoReturnModel>] */
   
   /**
   * Metodo para obtener un objeto TODO mediante su id

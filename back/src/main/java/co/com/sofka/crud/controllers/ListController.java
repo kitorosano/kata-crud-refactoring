@@ -28,7 +28,7 @@ public class ListController {
   @PostMapping()
   public ResponseEntity<ListModel> createList(@RequestBody ListModel list){
     try {
-      return new ResponseEntity<>(listService.saveList(list), HttpStatus.CREATED);
+      return new ResponseEntity<>(listService.saveNewList(list), HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
     }

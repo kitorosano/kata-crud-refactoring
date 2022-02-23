@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
-import { useRef } from 'react';
-import { useEffect } from 'react';
+import React, { useContext, useRef, useState } from 'react';
+import ListContext from '../../context/lists/listContext';
 
 function ListForm() {
+	// Todo Context methods
+	const { selectedList, addList, updateList } = useContext(ListContext);
+
+	// Reference on form element, for reset purpose
 	const listFormRef = useRef(null);
+	// Input name state
 	const [listName, setListName] = useState('');
 
-	useEffect(() => {
-		// get lists from server
-	}, []);
-
-	const addNewList = (ev) => {
+	const onAdd = (ev) => {
 		ev.preventDefault();
 
-		// return if blank
+		// if input is blank don't send
+		if (listName === '') return;
 
-		// send requests
+		// Add new item to database
+		addList({ name: listName });
 
 		// clear state and form
-		listFormRef.current.reset();
 		setListName('');
+		listFormRef.current.reset();
 	};
 
 	return (
@@ -30,7 +32,7 @@ function ListForm() {
 						<div className='col-span-2 '>
 							<button
 								className='w-full inline-flex justify-center py-1 border shadow-sm text-sm font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100'
-								onClick={addNewList}
+								onClick={onAdd}
 							>
 								Crear Lista
 							</button>
@@ -41,7 +43,7 @@ function ListForm() {
 								type='text'
 								name='name'
 								placeholder='Nombre de la nueva lista'
-								defaultValue={''}
+								defaultValue={selectedList.name}
 								onChange={(ev) => setListName(ev.target.value)}
 							/>
 						</div>

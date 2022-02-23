@@ -1,12 +1,18 @@
 package co.com.sofka.crud.services;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.com.sofka.crud.models.ListModel;
 import co.com.sofka.crud.models.TodoModel;
+import co.com.sofka.crud.models.TodoRequestModel;
+import co.com.sofka.crud.repositories.IListRepository;
 import co.com.sofka.crud.repositories.ITodoRepository;
 
 @Service
@@ -14,18 +20,34 @@ public class TodoService {
 
   @Autowired
   private ITodoRepository todoRepository;
+  @Autowired
+  private IListRepository listRepository;
+
 
   /*=========== SAVE ===========*/
   /** Saves a new register of TODO */
-  public TodoModel saveTodo(TodoModel todo){
-    return todoRepository.save(new TodoModel(todo.getName(), false, todo.getGroupListId()));
+  public TodoRequestModel saveNewTodo(Long listId, TodoRequestModel todo){
+    ListModel list = listRepository.findById(listId).orElseThrow();
+    TodoModel newTodo = new TodoModel();
+
+    newTodo.setName(todo.getName());
+    newTodo.setCompleted(todo.getCompleted());
+
+    list.getTodos().add(newTodo);
+    
+    todo.setId(listRepository.save(list).getTodos().stream().reduce((prev, next) -> next).orElseThrow().getId());
+    todo.setListId(listId);
+    return todo;
   }
 
 
   /*=========== FIND ===========*/
-  /** Finds all TODOs or finds all TODOs by groupList */
-  public List<TodoModel> findTodos(String groupList){
-    return (List<TodoModel>) todoRepository.findByGroupListId(groupList);
+  /** Finds all TODOs or finds all TODOs by listId */
+  public Set<TodoRequestModel> findTodos(Long listId){
+    // return (List<TodoModel>) todoRepository.findByListId(listId);
+    Optional<ListModel> list = listRepository.findById(listId);
+    
+    return list.orElseThrow().getTodos().stream().map(todo -> new TodoRequestModel(todo.getId(), todo.getName(), todo.getCompleted(), listId)).collect(Collectors.toSet());
   }
 
   /** Get TODO by id */

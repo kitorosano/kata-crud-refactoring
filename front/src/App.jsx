@@ -1,9 +1,11 @@
-import ListForm from './components/grouplists/ListForm';
-import ViewLists from './components/grouplists/ViewLists';
+import ListForm from './components/lists/ListForm';
+import ViewLists from './components/lists/ViewLists';
 import TodoProvider from './context/todos/todoProvider';
+import ListProvider from './context/lists/listProvider';
 
 function App() {
 	return (
+		<ListProvider>
 		<TodoProvider>
 			<div className='container px-3 md:px-7 m-auto md:w-3/4'>
 				<div className='min-h-full'>
@@ -22,6 +24,7 @@ function App() {
 				</div>
 			</div>
 		</TodoProvider>
+		</ListProvider>
 	);
 }
 

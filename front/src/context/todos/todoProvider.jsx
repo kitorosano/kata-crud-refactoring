@@ -1,59 +1,59 @@
 import { useReducer } from 'react';
 import {
-	ADD_ITEM,
-	SELECT_ITEM,
-	UPDATE_ITEM,
-	DELETE_ITEM,
-	GET_LIST,
+  GET_TODOS,
+  ADD_TODO,
+  SELECT_TODO,
+  UPDATE_TODO,
+  DELETE_TODO
 } from '../../types';
 import TodoContext from './todoContext';
 import TodoReducer from './todoReducer';
 const HOST_API = 'http://localhost:8080/api';
 
-const StoreProvider = (props) => {
+const TodoProvider = (props) => {
 	const initialState = {
-		list: [],
-		item: {},
+		todos: [],
+		selectedTodo: {},
 	};
 	/**TODO: message state for reading request errors*/
 
 	const [state, dispatch] = useReducer(TodoReducer, initialState);
 
-	// Get every item on the list
-	const getList = async (groupList) => {
+	// Get TODOs from a specific Lists
+	const getTodos = async (listId) => {
 		try {
-			const response = await fetch(HOST_API + `/todos?groupList=${groupList}`);
-			const list = await response.json();
+			const response = await fetch(HOST_API + `/todos?listId=${listId}`);
+			const todos = await response.json();
 
-			dispatch({ type: GET_LIST, payload: list });
+			dispatch({ type: GET_TODOS, payload: todos });
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	// Selects the item to edit
-	const selectItem = (todo) => {
-		dispatch({ type: SELECT_ITEM, payload: todo });
+	// Selects a TODO to edit
+	const selectTodo = (todo) => {
+		dispatch({ type: SELECT_TODO, payload: todo });
 	};
 
-	// Adds item to the list
-	const addItem = async (newTodo) => {
+	// Adds TODO to a list
+	const addTodo = async (listId, newTodo) => {
 		try {
-			const response = await fetch(HOST_API + '/todos', {
+			const response = await fetch(HOST_API + `/todos?listId=${listId}`, {
 				method: 'POST',
 				body: JSON.stringify(newTodo),
 				headers: { 'Content-Type': 'application/json' },
 			});
-			const todo = response.json();
+			const todo = await response.json();
 
-			dispatch({ type: ADD_ITEM, payload: todo });
+			dispatch({ type: ADD_TODO, payload: todo });
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	// Updates item by id
-	const updateItem = async (id, newTodo) => {
+	// Updates TODO by id
+	const updateTodo = async (id, newTodo) => {
 		try {
 			const response = await fetch(HOST_API + `/todos/${id}`, {
 				method: 'PUT',
@@ -62,18 +62,18 @@ const StoreProvider = (props) => {
 			});
 			const todo = await response.json();
 
-			dispatch({ type: UPDATE_ITEM, payload: todo });
+			dispatch({ type: UPDATE_TODO, payload: todo });
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	// Delete item by id
-	const deleteItem = async (id) => {
+	// Deletes TODO by id
+	const deleteTodo = async (id) => {
 		try {
 			fetch(`${HOST_API}/todos/${id}`, {
 				method: 'DELETE',
-			}).then(() => dispatch({ type: DELETE_ITEM, payload: id }));
+			}).then(() => dispatch({ type: DELETE_TODO, payload: id }));
 		} catch (error) {
 			console.error(error);
 		}
@@ -82,13 +82,13 @@ const StoreProvider = (props) => {
 	return (
 		<TodoContext.Provider
 			value={{
-				list: state.list,
-				item: state.item,
-				getList,
-				selectItem,
-				deleteItem,
-				addItem,
-				updateItem,
+				todos: state.todos,
+				selectedTodo: state.selectedTodo,
+				getTodos,
+				selectTodo,
+				deleteTodo,
+				addTodo,
+				updateTodo,
 			}}
 		>
 			{props.children}
@@ -96,4 +96,4 @@ const StoreProvider = (props) => {
 	);
 };
 
-export default StoreProvider;
+export default TodoProvider;

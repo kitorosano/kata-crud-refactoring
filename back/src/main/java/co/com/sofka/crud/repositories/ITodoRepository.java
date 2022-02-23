@@ -13,11 +13,11 @@ public interface ITodoRepository extends CrudRepository<TodoModel, Long> {
      */
   void deleteByCompleted(Boolean completed);
 
-  /**
-     * Metodo para buscar todos los TODOs por su groupListID
-     * @param groupList
-     * @return Una lista de todos los objetos TODO por su groupListID
-     */
-  List<TodoModel> findByGroupListId(String groupList);
+  // /**
+  //    * Metodo para buscar todos los TODOs por su lista
+  //    * @param listId
+  //    * @return Una lista de todos los objetos TODO por su lista
+  //    */
+  // List<TodoModel> findByListId(Long listId);
   
 }

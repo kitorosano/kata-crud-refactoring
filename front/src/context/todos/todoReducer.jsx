@@ -1,40 +1,40 @@
 import {
-	ADD_ITEM,
-	SELECT_ITEM,
-	UPDATE_ITEM,
-	DELETE_ITEM,
-	GET_LIST
+  GET_TODOS,
+  ADD_TODO,
+  SELECT_TODO,
+  UPDATE_TODO,
+  DELETE_TODO
 } from '../../types';
 
 export default (state, action) => {
 	switch (action.type) {
-		case GET_LIST:
+		case GET_TODOS:
 			return {
 				...state,
-				list: action.payload,
+				todos: action.payload,
 			};
-		case SELECT_ITEM:
+		case SELECT_TODO:
 			return {
 				...state,
-				item: action.payload,
+				selectedTodo: action.payload,
 			};
-		case ADD_ITEM:
+		case ADD_TODO:
 			return {
 				...state,
-				list: [...state.list, action.payload],
+				todos: [...state.todos, action.payload],
 			};
-		case UPDATE_ITEM:
+		case UPDATE_TODO:
 			return {
 				...state,
-				item: {},
-				list: state.list.map((item) =>
-					item.id === action.payload.id ? action.payload : item
+				selectedTodo: {},
+				todos: state.todos.map((todo) =>
+					todo.id === action.payload.id ? action.payload : todo
 				),
 			};
-		case DELETE_ITEM:
+		case DELETE_TODO:
 			return {
 				...state,
-				list: state.list.filter((item) => item.id !== action.payload),
+				todos: state.todos.filter((todo) => todo.id !== action.payload),
 			};
 		default:
 			return state;
