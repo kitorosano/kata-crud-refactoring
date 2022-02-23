@@ -1,6 +1,10 @@
 package co.com.sofka.crud.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
@@ -44,10 +48,14 @@ public class TodoService {
   /*=========== FIND ===========*/
   /** Finds all TODOs or finds all TODOs by listId */
   public Set<TodoRequestModel> findTodos(Long listId){
-    // return (List<TodoModel>) todoRepository.findByListId(listId);
-    Optional<ListModel> list = listRepository.findById(listId);
-    
-    return list.orElseThrow().getTodos().stream().map(todo -> new TodoRequestModel(todo.getId(), todo.getName(), todo.getCompleted(), listId)).collect(Collectors.toSet());
+
+    return listRepository.findById(listId).orElseThrow()
+                        .getTodos().stream()
+                        .map(todo -> 
+                          new TodoRequestModel(todo.getId(), todo.getName(), todo.getCompleted(), listId)
+                        )
+                        .collect(Collectors.toSet());
+
   }
 
   /** Get TODO by id */

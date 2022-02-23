@@ -1,13 +1,15 @@
 import { useReducer } from 'react';
 import {
-  GET_TODOS,
-  ADD_TODO,
-  SELECT_TODO,
-  UPDATE_TODO,
-  DELETE_TODO
+	GET_TODOS,
+	ADD_TODO,
+	SELECT_TODO,
+	UPDATE_TODO,
+	DELETE_TODO,
 } from '../../types';
 import TodoContext from './todoContext';
 import TodoReducer from './todoReducer';
+import clienteAxios from '../../config/axios';
+
 const HOST_API = 'http://localhost:8080/api';
 
 const TodoProvider = (props) => {
@@ -22,12 +24,11 @@ const TodoProvider = (props) => {
 	// Get TODOs from a specific Lists
 	const getTodos = async (listId) => {
 		try {
-			const response = await fetch(HOST_API + `/todos?listId=${listId}`);
-			const todos = await response.json();
+			const response = await clienteAxios.get(`/todos?listId=${listId}`);
 
-			dispatch({ type: GET_TODOS, payload: todos });
+			dispatch({ type: GET_TODOS, payload: response.data });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response);
 		}
 	};
 

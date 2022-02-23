@@ -1,8 +1,14 @@
 package co.com.sofka.crud.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.LongAccumulator;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,7 +56,7 @@ public class TodoController {
       // if(todos.isEmpty())
       // return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       
-      // return new ResponseEntity<>(todos,HttpStatus.OK);
+      // return new ResponseEntity<>(listId,HttpStatus.OK);
       return new ResponseEntity<>(todos, HttpStatus.OK);
     }catch (Exception e){
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

@@ -1,9 +1,9 @@
 import {
-  GET_TODOS,
-  ADD_TODO,
-  SELECT_TODO,
-  UPDATE_TODO,
-  DELETE_TODO
+	GET_TODOS,
+	ADD_TODO,
+	SELECT_TODO,
+	UPDATE_TODO,
+	DELETE_TODO,
 } from '../../types';
 
 export default (state, action) => {
@@ -11,7 +11,7 @@ export default (state, action) => {
 		case GET_TODOS:
 			return {
 				...state,
-				todos: action.payload,
+				todos: [...state.todos, ...action.payload].sort((a, b) => b.id - a.id),
 			};
 		case SELECT_TODO:
 			return {
