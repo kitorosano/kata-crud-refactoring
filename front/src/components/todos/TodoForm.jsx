@@ -38,6 +38,7 @@ function TodoForm({ listId }) {
 		updateTodo(selectedTodo.id, {
 			name: modifiedName,
 			completed: selectedTodo.completed,
+      listId: selectedTodo.listId
 		});
 
 		// Clear state
@@ -58,12 +59,12 @@ function TodoForm({ listId }) {
 						type='text'
 						name='name'
 						placeholder='Nombre del nuevo TO-DO...'
-						defaultValue={selectedTodo.name}
+						defaultValue={selectedTodo.listId === listId ? selectedTodo.name : ''}
 						onChange={(ev) => setModifiedName(ev.target.value)}
 					/>
 				</div>
 				<div className='col-span-3 md:col-span-2'>
-					{selectedTodo.id ? (
+					{selectedTodo.id && selectedTodo.listId === listId ? (
 						<button
 							className='w-full inline-flex justify-center py-1 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500'
 							onClick={onEdit}

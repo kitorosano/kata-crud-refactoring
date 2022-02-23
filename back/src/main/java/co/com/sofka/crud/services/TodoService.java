@@ -37,10 +37,12 @@ public class TodoService {
     newTodo.setName(todo.getName());
     newTodo.setCompleted(todo.getCompleted());
 
-    list.getTodos().add(newTodo);
-    
-    todo.setId(listRepository.save(list).getTodos().stream().reduce((prev, next) -> next).orElseThrow().getId());
+    todo.setId(todoRepository.save(newTodo).getId());
     todo.setListId(listId);
+    
+    list.getTodos().add(newTodo);
+    listRepository.save(list);
+    
     return todo;
   }
 
@@ -66,20 +68,23 @@ public class TodoService {
 
   /*=========== FIND & EDIT ===========*/
   /** Edit TODO by id, using new Model */
-  public TodoModel editTodo(Long id, TodoModel todo){
-    TodoModel _todo = this.getTodo(id).orElseThrow();
+  public TodoRequestModel editTodo(Long id, TodoRequestModel todo){
+    TodoModel toUpdateTodo = this.getTodo(id).orElseThrow();
       
-    _todo.setName(todo.getName());
-    _todo.setCompleted(todo.isCompleted());
+    toUpdateTodo.setName(todo.getName());
+    toUpdateTodo.setCompleted(todo.isCompleted());
 
-    return todoRepository.save(_todo);
+    todoRepository.save(toUpdateTodo);
+
+    todo.setId(id);
+    return todo;
   }
 
 
   /*=========== DELETE ===========*/
   /** Deletes TODO by id */
   public void deleteTodo(Long id){
-    todoRepository.delete(this.getTodo(id).get());
+    todoRepository.delete(this.getTodo(id).orElseThrow());
   }
 
   /** Deletes all TODOs or those that are completed */

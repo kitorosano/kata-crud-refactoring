@@ -62,8 +62,6 @@ public class TodoController {
       return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-  /**TODO: 23/02/2022: getTodosByListIds; params: [IDs]; returns [set<TodoReturnModel>] */
   
   /**
   * Metodo para obtener un objeto TODO mediante su id
@@ -91,11 +89,9 @@ public class TodoController {
   * @return Un response exitoso con el TODO modificado, o un response vacio
   */
   @PutMapping("/{id}")
-  public ResponseEntity<?> updateTodo(@PathVariable(value = "id") Long id, @RequestBody TodoModel todo){
+  public ResponseEntity<?> updateTodo(@PathVariable(value = "id") Long id, @RequestBody TodoRequestModel todo){
     try {
-      TodoModel todoData = todoService.editTodo(id, todo);
-      
-      return new ResponseEntity<>(todoData, HttpStatus.OK);
+      return new ResponseEntity<>(todoService.editTodo(id, todo), HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>("No existe el id para actualziar", HttpStatus.NOT_FOUND);
     }

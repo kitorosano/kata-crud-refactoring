@@ -56,14 +56,11 @@ const TodoProvider = (props) => {
 	// Updates TODO by id
 	const updateTodo = async (id, newTodo) => {
 		try {
-			const response = await fetch(HOST_API + `/todos/${id}`, {
-				method: 'PUT',
-				body: JSON.stringify(newTodo),
+			const response = await clienteAxios.put(`/todos/${id}`, newTodo, {
 				headers: { 'Content-Type': 'application/json' },
 			});
-			const todo = await response.json();
-
-			dispatch({ type: UPDATE_TODO, payload: todo });
+      
+			dispatch({ type: UPDATE_TODO, payload: response.data });
 		} catch (error) {
 			console.error(error);
 		}

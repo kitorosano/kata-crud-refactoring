@@ -10,13 +10,13 @@ function ViewTodos({ listId }) {
 		// Get todos at page start
 		getTodos(listId);
 	}, []);
-  console.log(todos)
 
 	const onChange = (ev, modifiedTodo) => {
 		// Update new item completion state to database
 		updateTodo(modifiedTodo.id, {
 			name: modifiedTodo.name,
 			completed: ev.target.checked,
+      listId: modifiedTodo.listId
 		});
 	};
 
@@ -30,8 +30,8 @@ function ViewTodos({ listId }) {
 				<div className='py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8'>
 					<div className='shadow overflow-hidden border-b border-gray-200 sm:rounded-lg'>
 						<table className='min-w-full divide-y divide-gray-200'>
-							{/* <thead className='bg-gray-50'>
-								<tr>
+							<thead className='bg-gray-50'>
+								{/* <tr>
 									<th
 										scope='col'
 										className='px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'
@@ -56,13 +56,14 @@ function ViewTodos({ listId }) {
 									>
 										<span className='sr-only'>Acciones</span>
 									</th>
-								</tr>
-							</thead> */}
+								</tr> */}
+							</thead>
 							<tbody className='bg-white divide-y divide-gray-200'>
 								{todos.map(
-									(todo,i) =>
+									(todo, i) =>
 										todo.listId === listId && (
 											<tr
+												// Striped color on rows
 												key={todo.id}
 												className={`${
 													i % 2 == 0 ? 'bg-white' : 'bg-gray-50'
