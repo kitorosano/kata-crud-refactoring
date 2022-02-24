@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import TodoContext from '../../context/todos/todoContext';
 
 function TodoForm({ listId }) {
@@ -38,7 +38,7 @@ function TodoForm({ listId }) {
 		updateTodo(selectedTodo.id, {
 			name: modifiedName,
 			completed: selectedTodo.completed,
-      listId: selectedTodo.listId
+			listId: selectedTodo.listId,
 		});
 
 		// Clear state
@@ -59,7 +59,9 @@ function TodoForm({ listId }) {
 						type='text'
 						name='name'
 						placeholder='Nombre del nuevo TO-DO...'
-						defaultValue={selectedTodo.listId === listId ? selectedTodo.name : ''}
+						defaultValue={
+							selectedTodo.listId === listId ? selectedTodo.name : ''
+						}
 						onChange={(ev) => setModifiedName(ev.target.value)}
 					/>
 				</div>

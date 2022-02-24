@@ -3,18 +3,13 @@ import { useEffect } from 'react';
 import TodoForm from '../todos/TodoForm';
 import ViewTodos from '../todos/ViewTodos';
 import ListContext from '../../context/lists/listContext';
-import todoContext from '../../context/todos/todoContext';
 import { AiOutlineClose } from 'react-icons/ai';
 import { FaPencilAlt } from 'react-icons/fa';
 
 function ViewLists() {
 	// Store Context methods
-	const { lists, getLists, selectList, updateList, deleteList } =
+	const { lists, getLists, selectList, deleteList } =
 		useContext(ListContext);
-	// Store Context methods
-	const { getTodos } = useContext(todoContext);
-
-	const [mouseOverList, setMouseOverList] = useState(false);
 
 	useEffect(() => {
 		// Get lists at page start

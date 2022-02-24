@@ -27,6 +27,8 @@ public class ListController {
   @PostMapping()
   public ResponseEntity<?> createList(@RequestBody ListModel list){
     try {
+      if(list.getName().isBlank()) return new ResponseEntity<>("EXPECTATION FAILED. Field 'name' must not be blank.\n", HttpStatus.EXPECTATION_FAILED);
+
       return new ResponseEntity<>(listService.saveNewList(list), HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<>("EXPECTATION FAILED.\n" + e.getMessage(), HttpStatus.EXPECTATION_FAILED);
@@ -81,6 +83,8 @@ public class ListController {
   @PutMapping("/{id}")
   public ResponseEntity<?> updateList(@PathVariable(value = "id") Long id, @RequestBody ListModel list){
     try {
+      if(list.getName().isBlank()) return new ResponseEntity<>("EXPECTATION FAILED. Field 'name' must not be blank.\n", HttpStatus.EXPECTATION_FAILED);
+
       ListModel todoData = listService.editList(id, list);
       
       return new ResponseEntity<>(todoData, HttpStatus.OK);

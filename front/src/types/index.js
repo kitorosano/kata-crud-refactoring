@@ -9,3 +9,8 @@ export const ADD_LIST = 'add-list';
 export const SELECT_LIST = 'select-list';
 export const UPDATE_LIST = 'update-list';
 export const DELETE_LIST = 'delete-list';
+
+export const ERROR_LIST_REQUEST = 'error-list';
+export const ERROR_TODO_REQUEST = 'error-todo';
+export const SHOW_ALERT = 'show-alert';
+export const HIDE_ALERT = 'hide-alert';

@@ -27,6 +27,8 @@ public class TodoController {
   @PostMapping(params = "listId")
   public ResponseEntity<?> createTodo(@RequestParam(value = "listId") Long listId, @RequestBody TodoRequestModel todo){
     try {
+      if(todo.getName().isBlank()) return new ResponseEntity<>("EXPECTATION FAILED. Field 'name' must not be blank.\n", HttpStatus.EXPECTATION_FAILED);
+
       return new ResponseEntity<>(todoService.saveNewTodo(listId, todo), HttpStatus.CREATED);
     } catch (Exception e) {
       return new ResponseEntity<>("EXPECTATION FAILED.\n" + e.getMessage(), HttpStatus.EXPECTATION_FAILED);
@@ -81,6 +83,8 @@ public class TodoController {
   @PutMapping("/{id}")
   public ResponseEntity<?> updateTodo(@PathVariable(value = "id") Long id, @RequestBody TodoRequestModel todo){
     try {
+      if(todo.getName().isBlank()) return new ResponseEntity<>("EXPECTATION FAILED. Field 'name' must not be blank.\n", HttpStatus.EXPECTATION_FAILED);
+
       return new ResponseEntity<>(todoService.editTodo(id, todo), HttpStatus.OK);
     } catch (Exception e) {
       return new ResponseEntity<>("NOT FOUND.\n" + e.getMessage(), HttpStatus.NOT_FOUND);

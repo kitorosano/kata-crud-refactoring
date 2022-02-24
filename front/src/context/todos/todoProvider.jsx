@@ -10,8 +10,6 @@ import TodoContext from './todoContext';
 import TodoReducer from './todoReducer';
 import clienteAxios from '../../config/axios';
 
-const HOST_API = 'http://localhost:8080/api';
-
 const TodoProvider = (props) => {
 	const initialState = {
 		todos: [],

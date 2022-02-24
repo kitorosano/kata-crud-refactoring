@@ -35,8 +35,8 @@ Dentro del back-end no se tiene una base de datos basada en servidor. Se debe ap
 - ~~Resolver el diseño gráfico~~
 - ~~Separar bien los elementos gráficos como componentes, store, reducer y providers.~~
 - ~~La base de datos debe esta en un servidor como MySQL.~~
-- Aplicar reglas para no guardar elementos vácios.
-- Validar carácteres y demás para guardar las entidades de los TO-DO.
+- ~~Aplicar reglas para no guardar elementos vácios.~~
+- ~~Validar carácteres y demás para guardar las entidades de los TO-DO.~~
 - ~~Trabajar con un objeto de trasporte de datos o un objeto plano para representa los datos ante la API.~~
 
 ## Reto
@@ -47,3 +47,7 @@ Realizar la siguiente representación donde se tiene TO-Do List agripado en list
 
 ![alt text]( ./todo-list-kata.gif "Demo funcional del ToDo List")
 
+### PD : en el README debe colocar un enlace a un video de no máximo 5 minutos mostrando la app web funcionado y explicando los aspectos mas relevantes del código.
+
+## Solución - ESTEBAN ROSANO
+https://youtu.be/zvo0qU6dWX0

@@ -9,12 +9,12 @@ import {
 } from '../../types';
 import ListContext from './listContext';
 import ListReducer from './listReducer';
-const HOST_API = 'http://localhost:8080/api';
 
 const ListProvider = (props) => {
 	const initialState = {
 		lists: [],
 		selectedList: {},
+    errorMsg: null
 	};
 	/**TODO(20/02/2022): message state for reading request errors*/
 
