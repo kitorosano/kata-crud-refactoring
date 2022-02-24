@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import clienteAxios from '../../config/axios';
 import {
   GET_LISTS,
   ADD_LIST,
@@ -22,12 +23,11 @@ const ListProvider = (props) => {
 	// Get every list
 	const getLists = async () => {
 		try {
-			const response = await fetch(HOST_API + '/lists');
-			const lists = await response.json();
+			const response = await clienteAxios('/lists');
 
-			dispatch({ type: GET_LISTS, payload: lists });
+			dispatch({ type: GET_LISTS, payload: response.data });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response.data);
 		}
 	};
 
@@ -39,43 +39,37 @@ const ListProvider = (props) => {
 	// Adds new list
 	const addList = async (newList) => {
 		try {
-			const response = await fetch(HOST_API + '/lists', {
-				method: 'POST',
-				body: JSON.stringify(newList),
+			const response = await clienteAxios.post('/lists', newList, {
 				headers: { 'Content-Type': 'application/json' },
 			});
-			const list = await response.json();
 
-			dispatch({ type: ADD_LIST, payload: list });
+			dispatch({ type: ADD_LIST, payload: response.data });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response.data);
 		}
 	};
 
 	// Updates list by id
 	const updateList = async (id, newList) => {
 		try {
-			const response = await fetch(HOST_API + `/lists/${id}`, {
-				method: 'PUT',
-				body: JSON.stringify(newList),
+			const response = await clienteAxios.put(`/lists/${id}`, newList, {
 				headers: { 'Content-Type': 'application/json' },
 			});
-			const list = await response.json();
 
-			dispatch({ type: UPDATE_LIST, payload: list });
+			dispatch({ type: UPDATE_LIST, payload: response.data });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response.data);
 		}
 	};
 
 	// Deletes list by id
 	const deleteList = async (id) => {
 		try {
-			fetch(`${HOST_API}/lists/${id}`, {
-				method: 'DELETE',
-			}).then(() => dispatch({ type: DELETE_LIST, payload: id }));
+			clienteAxios.delete(`/lists/${id}`)
+
+      dispatch({ type: DELETE_LIST, payload: id });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response.data);
 		}
 	};
 

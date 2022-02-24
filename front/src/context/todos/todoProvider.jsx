@@ -28,7 +28,7 @@ const TodoProvider = (props) => {
 
 			dispatch({ type: GET_TODOS, payload: response.data });
 		} catch (error) {
-			console.error(error.response);
+			console.error(error.response.data);
 		}
 	};
 
@@ -40,16 +40,13 @@ const TodoProvider = (props) => {
 	// Adds TODO to a list
 	const addTodo = async (listId, newTodo) => {
 		try {
-			const response = await fetch(HOST_API + `/todos?listId=${listId}`, {
-				method: 'POST',
-				body: JSON.stringify(newTodo),
+			const response = await clienteAxios.post(`/todos?listId=${listId}`,newTodo, {
 				headers: { 'Content-Type': 'application/json' },
-			});
-			const todo = await response.json();
+      })
 
-			dispatch({ type: ADD_TODO, payload: todo });
+			dispatch({ type: ADD_TODO, payload: response.data });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response.data);
 		}
 	};
 
@@ -62,18 +59,18 @@ const TodoProvider = (props) => {
       
 			dispatch({ type: UPDATE_TODO, payload: response.data });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response.data);
 		}
 	};
 
 	// Deletes TODO by id
 	const deleteTodo = async (id) => {
 		try {
-			fetch(`${HOST_API}/todos/${id}`, {
-				method: 'DELETE',
-			}).then(() => dispatch({ type: DELETE_TODO, payload: id }));
+			await clienteAxios.delete(`/todos/${id}`)
+
+      dispatch({ type: DELETE_TODO, payload: id });
 		} catch (error) {
-			console.error(error);
+			console.error(error.response.data);
 		}
 	};
 

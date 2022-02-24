@@ -1,7 +1,6 @@
 package co.com.sofka.crud.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,11 +25,11 @@ public class ListController {
   * @return Un response exitoroso con el nuevo objeto creado, o un response fallido.
   */
   @PostMapping()
-  public ResponseEntity<ListModel> createList(@RequestBody ListModel list){
+  public ResponseEntity<?> createList(@RequestBody ListModel list){
     try {
       return new ResponseEntity<>(listService.saveNewList(list), HttpStatus.CREATED);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+      return new ResponseEntity<>("EXPECTATION FAILED.\n" + e.getMessage(), HttpStatus.EXPECTATION_FAILED);
     }
   }
   
@@ -40,7 +39,7 @@ public class ListController {
   * @return Un response exitoroso con todas las Listas, o un response vacio. 
   */
   @GetMapping()
-  public ResponseEntity<List<ListModel>> readLists(){
+  public ResponseEntity<?> readLists(){
     try {
       List<ListModel> lists = listService.findLists();
       
@@ -50,7 +49,7 @@ public class ListController {
       
       return new ResponseEntity<>(lists, HttpStatus.OK);
     }catch (Exception e){
-      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>("INTERNAL SERVER ERROR. \n" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   
@@ -86,7 +85,7 @@ public class ListController {
       
       return new ResponseEntity<>(todoData, HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>("No existe el id para actualziar", HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>("NOT FOUND. \n", HttpStatus.NOT_FOUND);
     }
   } 
   
@@ -98,12 +97,12 @@ public class ListController {
   * @return Un response exitoso con un mensaje si se ha eliminado correctamente, o un response fallido.
   */
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteList(@PathVariable(value = "id") long id) {
+  public ResponseEntity<?> deleteList(@PathVariable(value = "id") long id) {
     try {
       listService.deleteList(id);
       return new ResponseEntity<>("List has been deleted sucessfully",HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+      return new ResponseEntity<>("EXPECTATION FAILED. \n" + e.getMessage(), HttpStatus.EXPECTATION_FAILED);
     }
   }
   

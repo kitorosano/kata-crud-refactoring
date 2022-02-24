@@ -24,18 +24,43 @@ function ListForm() {
 		listFormRef.current.reset();
 	};
 
+	const onEdit = (ev) => {
+		ev.preventDefault();
+
+		// if input is blank return
+		if (listName === '') return;
+
+		// Update list to database using id
+		updateList(selectedList.id, {
+			name: listName,
+		});
+
+		// Clear state and input
+		setListName('');
+		listFormRef.current.reset();
+	};
+
 	return (
 		<div className='mx-auto py-3'>
 			<div className='px-4 py-2 bg-white'>
 				<form ref={listFormRef} className='md:w-3/5 mr-auto'>
 					<div className='grid grid-cols-8 gap-4 items-center'>
 						<div className='col-span-2 '>
-							<button
-								className='w-full inline-flex justify-center py-1 border shadow-sm text-sm font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100'
-								onClick={onAdd}
-							>
-								Crear Lista
-							</button>
+							{selectedList.id ? (
+								<button
+									className='w-full inline-flex justify-center py-1 border shadow-sm text-sm font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100'
+									onClick={onEdit}
+								>
+									Modificar Lista
+								</button>
+							) : (
+								<button
+									className='w-full inline-flex justify-center py-1 border shadow-sm text-sm font-medium rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-100'
+									onClick={onAdd}
+								>
+									Crear Lista
+								</button>
+							)}
 						</div>
 						<div className='col-span-6'>
 							<input

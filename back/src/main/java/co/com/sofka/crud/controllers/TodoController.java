@@ -1,21 +1,12 @@
 package co.com.sofka.crud.controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.LongAccumulator;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import co.com.sofka.crud.models.TodoModel;
 import co.com.sofka.crud.models.TodoRequestModel;
 import co.com.sofka.crud.services.TodoService;
 
@@ -38,7 +29,7 @@ public class TodoController {
     try {
       return new ResponseEntity<>(todoService.saveNewTodo(listId, todo), HttpStatus.CREATED);
     } catch (Exception e) {
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.EXPECTATION_FAILED);
+      return new ResponseEntity<>("EXPECTATION FAILED.\n" + e.getMessage(), HttpStatus.EXPECTATION_FAILED);
     }
   }
   
@@ -56,10 +47,9 @@ public class TodoController {
       // if(todos.isEmpty())
       // return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       
-      // return new ResponseEntity<>(listId,HttpStatus.OK);
       return new ResponseEntity<>(todos, HttpStatus.OK);
     }catch (Exception e){
-      return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+      return new ResponseEntity<>("INTERNAL SERVER ERROR.\n" + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
   
@@ -93,7 +83,7 @@ public class TodoController {
     try {
       return new ResponseEntity<>(todoService.editTodo(id, todo), HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>("No existe el id para actualziar", HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>("NOT FOUND.\n" + e.getMessage(), HttpStatus.NOT_FOUND);
     }
   } 
   
@@ -105,12 +95,12 @@ public class TodoController {
   * @return Un response exitoso con un mensaje si se ha eliminado correctamente, o un response fallido.
   */
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteTodo(@PathVariable(value = "id") long id) {
+  public ResponseEntity<?> deleteTodo(@PathVariable(value = "id") long id) {
     try {
       todoService.deleteTodo(id);
       return new ResponseEntity<>("TODO has been deleted sucessfully",HttpStatus.OK);
     } catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+      return new ResponseEntity<>("EXPECTATION FAILED. \n" + e.getMessage(), HttpStatus.EXPECTATION_FAILED);
     }
   }
   
